@@ -716,6 +716,10 @@ button {
   padding: 0 1rem;
 }
 
+.task-chart__bars[hidden] {
+  display: none;
+}
+
 .task-chart__item {
   display: grid;
   grid-template-rows: 110px auto;
