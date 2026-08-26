@@ -21,6 +21,9 @@ const sectionMeta = {
 const tasks = [];
 let editingTaskId = null;
 let nextTaskId = 1;
+const meetings = [];
+let editingMeetingId = null;
+let nextMeetingId = 1;
 
 function initIcons() {
   if (typeof lucide !== "undefined") {
@@ -303,9 +306,179 @@ function initTaskManagement() {
   renderTasks();
 }
 
+function getMeetingFormElements() {
+  return {
+    card: document.getElementById("meeting-form-card"),
+    form: document.getElementById("meeting-form"),
+    title: document.getElementById("meeting-title"),
+    participant: document.getElementById("meeting-participant"),
+    date: document.getElementById("meeting-date"),
+    time: document.getElementById("meeting-time"),
+    place: document.getElementById("meeting-place"),
+    heading: document.getElementById("meeting-form-title"),
+    message: document.getElementById("meeting-form-message"),
+  };
+}
+
+function resetMeetingForm() {
+  const elements = getMeetingFormElements();
+  elements.form.reset();
+  elements.message.hidden = true;
+  elements.message.textContent = "";
+  editingMeetingId = null;
+}
+
+function openMeetingForm(meeting) {
+  const elements = getMeetingFormElements();
+  resetMeetingForm();
+  elements.heading.textContent = meeting ? "Editar reunión" : "Nueva reunión";
+
+  if (meeting) {
+    editingMeetingId = meeting.id;
+    elements.title.value = meeting.title;
+    elements.participant.value = meeting.participant;
+    elements.date.value = meeting.date;
+    elements.time.value = meeting.time;
+    elements.place.value = meeting.place;
+  }
+
+  elements.card.hidden = false;
+  elements.title.focus();
+}
+
+function closeMeetingForm() {
+  resetMeetingForm();
+  getMeetingFormElements().card.hidden = true;
+}
+
+function showMeetingFormMessage(message) {
+  const messageElement = getMeetingFormElements().message;
+  messageElement.textContent = message;
+  messageElement.hidden = false;
+}
+
+function validateMeeting(meeting) {
+  if (!meeting.title || !meeting.participant || !meeting.date || !meeting.time || !meeting.place) {
+    return "Completá todos los campos obligatorios para guardar la reunión.";
+  }
+
+  return "";
+}
+
+function saveMeeting(event) {
+  event.preventDefault();
+  const elements = getMeetingFormElements();
+  const meetingData = {
+    title: elements.title.value.trim(),
+    participant: elements.participant.value.trim(),
+    date: elements.date.value,
+    time: elements.time.value,
+    place: elements.place.value.trim(),
+  };
+  const validationMessage = validateMeeting(meetingData);
+
+  if (validationMessage) {
+    showMeetingFormMessage(validationMessage);
+    return;
+  }
+
+  if (editingMeetingId) {
+    const meetingIndex = meetings.findIndex(function (meeting) {
+      return meeting.id === editingMeetingId;
+    });
+
+    if (meetingIndex === -1) {
+      closeMeetingForm();
+      renderMeetings();
+      return;
+    }
+
+    meetings[meetingIndex] = { id: editingMeetingId, ...meetingData };
+  } else {
+    meetings.push({ id: nextMeetingId, ...meetingData });
+    nextMeetingId += 1;
+  }
+
+  closeMeetingForm();
+  renderMeetings();
+}
+
+function formatMeetingTime(time) {
+  return time.slice(0, 5);
+}
+
+function renderMeetings() {
+  const emptyState = document.getElementById("meeting-empty-state");
+  const meetingList = document.getElementById("meeting-list");
+  const tableBody = document.getElementById("meeting-table-body");
+  const meetingCount = document.getElementById("meeting-count");
+
+  emptyState.hidden = meetings.length > 0;
+  meetingList.hidden = meetings.length === 0;
+  meetingCount.textContent = meetings.length + (meetings.length === 1 ? " reunión" : " reuniones");
+  tableBody.innerHTML = "";
+
+  meetings.forEach(function (meeting) {
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td><span class="meeting-title" title="${escapeHtml(meeting.title)}">${escapeHtml(meeting.title)}</span></td>
+      <td>${escapeHtml(meeting.participant)}</td>
+      <td>${formatTaskDate(meeting.date)}</td>
+      <td><span class="meeting-time"><i data-lucide="clock" aria-hidden="true"></i>${formatMeetingTime(meeting.time)}</span></td>
+      <td><span class="meeting-place"><i data-lucide="map-pin" aria-hidden="true"></i>${escapeHtml(meeting.place)}</span></td>
+      <td>
+        <div class="task-actions">
+          <button type="button" class="icon-button" data-meeting-action="edit" data-meeting-id="${meeting.id}" aria-label="Editar ${escapeHtml(meeting.title)}" title="Editar reunión">
+            <i data-lucide="pencil" aria-hidden="true"></i>
+          </button>
+          <button type="button" class="icon-button icon-button--danger" data-meeting-action="delete" data-meeting-id="${meeting.id}" aria-label="Eliminar ${escapeHtml(meeting.title)}" title="Eliminar reunión">
+            <i data-lucide="trash-2" aria-hidden="true"></i>
+          </button>
+        </div>
+      </td>`;
+    tableBody.appendChild(row);
+  });
+
+  initIcons();
+}
+
+function handleMeetingAction(event) {
+  const actionButton = event.target.closest("[data-meeting-action]");
+  if (!actionButton) {
+    return;
+  }
+
+  const meeting = meetings.find(function (item) {
+    return item.id === Number(actionButton.dataset.meetingId);
+  });
+
+  if (actionButton.dataset.meetingAction === "edit") {
+    openMeetingForm(meeting);
+  } else if (meeting && confirm("¿Querés eliminar la reunión \"" + meeting.title + "\"?")) {
+    if (editingMeetingId === meeting.id) {
+      closeMeetingForm();
+    }
+
+    meetings.splice(meetings.indexOf(meeting), 1);
+    renderMeetings();
+  }
+}
+
+function initMeetingManagement() {
+  document.getElementById("new-meeting-button").addEventListener("click", function () {
+    openMeetingForm();
+  });
+  document.getElementById("close-meeting-form").addEventListener("click", closeMeetingForm);
+  document.getElementById("cancel-meeting-form").addEventListener("click", closeMeetingForm);
+  document.getElementById("meeting-form").addEventListener("submit", saveMeeting);
+  document.getElementById("meeting-table-body").addEventListener("click", handleMeetingAction);
+  renderMeetings();
+}
+
 document.addEventListener("DOMContentLoaded", function () {
   initIcons();
   initNavigation();
   initMobileMenu();
   initTaskManagement();
+  initMeetingManagement();
 });
