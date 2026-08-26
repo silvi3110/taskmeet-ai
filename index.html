@@ -128,17 +128,98 @@
           hidden
           aria-labelledby="page-title"
         >
-          <article class="card empty-panel">
-            <div class="empty-state">
+          <div class="section-heading">
+            <div>
+              <h2 class="section-heading__title">Mis tareas</h2>
+              <p class="section-heading__text">
+                Organizá y seguí el progreso de tus tareas.
+              </p>
+            </div>
+            <button type="button" class="button button--primary" id="new-task-button">
+              <i data-lucide="plus" aria-hidden="true"></i>
+              <span>Nueva tarea</span>
+            </button>
+          </div>
+
+          <article class="card task-form-card" id="task-form-card" hidden>
+            <div class="card__header">
+              <div>
+                <h2 class="card__title" id="task-form-title">Nueva tarea</h2>
+                <p class="card__description">Completá los datos de la tarea.</p>
+              </div>
+              <button type="button" class="icon-button" id="close-task-form" aria-label="Cerrar formulario" title="Cerrar formulario">
+                <i data-lucide="x" aria-hidden="true"></i>
+              </button>
+            </div>
+
+            <form id="task-form" novalidate>
+              <div class="form-grid">
+                <div class="form-field form-field--wide">
+                  <label for="task-title">Título <span aria-hidden="true">*</span></label>
+                  <input type="text" id="task-title" name="title" maxlength="120" required>
+                </div>
+                <div class="form-field form-field--wide">
+                  <label for="task-description">Descripción</label>
+                  <textarea id="task-description" name="description" rows="3" maxlength="500"></textarea>
+                </div>
+                <div class="form-field">
+                  <label for="task-date">Fecha <span aria-hidden="true">*</span></label>
+                  <input type="date" id="task-date" name="date" required>
+                </div>
+                <div class="form-field">
+                  <label for="task-priority">Prioridad <span aria-hidden="true">*</span></label>
+                  <select id="task-priority" name="priority" required>
+                    <option value="">Seleccionar prioridad</option>
+                    <option value="Baja">Baja</option>
+                    <option value="Media">Media</option>
+                    <option value="Alta">Alta</option>
+                  </select>
+                </div>
+                <div class="form-field">
+                  <label for="task-status">Estado <span aria-hidden="true">*</span></label>
+                  <select id="task-status" name="status" required>
+                    <option value="">Seleccionar estado</option>
+                    <option value="Pendiente">Pendiente</option>
+                    <option value="En proceso">En proceso</option>
+                    <option value="Completada">Completada</option>
+                  </select>
+                </div>
+              </div>
+              <p class="form-message" id="task-form-message" role="alert" hidden></p>
+              <div class="form-actions">
+                <button type="button" class="button button--secondary" id="cancel-task-form">Cancelar</button>
+                <button type="submit" class="button button--primary" id="save-task-button">Guardar tarea</button>
+              </div>
+            </form>
+          </article>
+
+          <article class="card task-list-card">
+            <div id="task-empty-state" class="empty-state">
               <div class="empty-state__icon">
                 <i data-lucide="list-todo" aria-hidden="true"></i>
               </div>
-              <h2 class="empty-state__title">Tareas</h2>
-              <p class="empty-state__text">
-                Administrá tus tareas pendientes, en proceso y completadas
-                desde esta sección.
-              </p>
-              <p class="empty-state__hint">Todavía no existen tareas.</p>
+              <h2 class="empty-state__title">Todavía no existen tareas</h2>
+              <p class="empty-state__text">Creá tu primera tarea para comenzar a organizar tu trabajo.</p>
+            </div>
+            <div id="task-list" hidden>
+              <div class="task-list__header">
+                <h2 class="card__title">Tareas registradas</h2>
+                <span class="task-count" id="task-count"></span>
+              </div>
+              <div class="table-wrapper">
+                <table class="task-table">
+                  <thead>
+                    <tr>
+                      <th scope="col">Tarea</th>
+                      <th scope="col">Fecha</th>
+                      <th scope="col">Prioridad</th>
+                      <th scope="col">Estado</th>
+                      <th scope="col" class="task-table__actions">Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody id="task-table-body"></tbody>
+                </table>
+              </div>
             </div>
           </article>
         </section>
