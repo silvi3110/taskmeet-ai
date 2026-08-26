@@ -231,17 +231,89 @@
           hidden
           aria-labelledby="page-title"
         >
-          <article class="card empty-panel">
-            <div class="empty-state">
+          <div class="section-heading">
+            <div>
+              <h2 class="section-heading__title">Mis reuniones</h2>
+              <p class="section-heading__text">
+                Organizá tus próximos encuentros en un solo lugar.
+              </p>
+            </div>
+            <button type="button" class="button button--primary" id="new-meeting-button">
+              <i data-lucide="plus" aria-hidden="true"></i>
+              <span>Nueva reunión</span>
+            </button>
+          </div>
+
+          <article class="card meeting-form-card" id="meeting-form-card" hidden>
+            <div class="card__header">
+              <div>
+                <h2 class="card__title" id="meeting-form-title">Nueva reunión</h2>
+                <p class="card__description">Completá los datos del encuentro.</p>
+              </div>
+              <button type="button" class="icon-button" id="close-meeting-form" aria-label="Cerrar formulario" title="Cerrar formulario">
+                <i data-lucide="x" aria-hidden="true"></i>
+              </button>
+            </div>
+
+            <form id="meeting-form" novalidate>
+              <div class="form-grid meeting-form-grid">
+                <div class="form-field form-field--wide">
+                  <label for="meeting-title">Título <span aria-hidden="true">*</span></label>
+                  <input type="text" id="meeting-title" name="title" maxlength="120" required>
+                </div>
+                <div class="form-field">
+                  <label for="meeting-participant"><i data-lucide="user-round" aria-hidden="true"></i>Participante <span aria-hidden="true">*</span></label>
+                  <input type="text" id="meeting-participant" name="participant" maxlength="120" required>
+                </div>
+                <div class="form-field">
+                  <label for="meeting-date"><i data-lucide="calendar-days" aria-hidden="true"></i>Fecha <span aria-hidden="true">*</span></label>
+                  <input type="date" id="meeting-date" name="date" required>
+                </div>
+                <div class="form-field">
+                  <label for="meeting-time"><i data-lucide="clock" aria-hidden="true"></i>Hora <span aria-hidden="true">*</span></label>
+                  <input type="time" id="meeting-time" name="time" required>
+                </div>
+                <div class="form-field form-field--wide">
+                  <label for="meeting-place"><i data-lucide="map-pin" aria-hidden="true"></i>Lugar <span aria-hidden="true">*</span></label>
+                  <input type="text" id="meeting-place" name="place" maxlength="160" required>
+                </div>
+              </div>
+              <p class="form-message" id="meeting-form-message" role="alert" hidden></p>
+              <div class="form-actions">
+                <button type="button" class="button button--secondary" id="cancel-meeting-form">Cancelar</button>
+                <button type="submit" class="button button--primary">Guardar reunión</button>
+              </div>
+            </form>
+          </article>
+
+          <article class="card meeting-list-card">
+            <div id="meeting-empty-state" class="empty-state">
               <div class="empty-state__icon">
                 <i data-lucide="calendar-days" aria-hidden="true"></i>
               </div>
-              <h2 class="empty-state__title">Reuniones</h2>
-              <p class="empty-state__text">
-                Organizá encuentros con título, participante, fecha, hora
-                y lugar.
-              </p>
-              <p class="empty-state__hint">Todavía no existen reuniones.</p>
+              <h2 class="empty-state__title">Todavía no existen reuniones</h2>
+              <p class="empty-state__text">Creá tu primera reunión para comenzar a organizar tus encuentros.</p>
+            </div>
+            <div id="meeting-list" hidden>
+              <div class="task-list__header">
+                <h2 class="card__title">Reuniones registradas</h2>
+                <span class="task-count" id="meeting-count"></span>
+              </div>
+              <div class="table-wrapper">
+                <table class="meeting-table">
+                  <thead>
+                    <tr>
+                      <th scope="col">Reunión</th>
+                      <th scope="col">Participante</th>
+                      <th scope="col">Fecha</th>
+                      <th scope="col">Hora</th>
+                      <th scope="col">Lugar</th>
+                      <th scope="col" class="task-table__actions">Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody id="meeting-table-body"></tbody>
+                </table>
+              </div>
             </div>
           </article>
         </section>
