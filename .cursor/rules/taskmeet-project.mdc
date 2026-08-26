@@ -1,0 +1,223 @@
+---
+description: Reglas generales del proyecto TaskMeet aplicadas durante todo el desarrollo
+alwaysApply: true
+---
+
+# TaskMeet Project
+
+## Identidad del proyecto
+
+- Proyecto: **TaskMeet** (`taskmeet-ai`).
+- Aplicación web para la gestión de tareas y reuniones.
+- El desarrollo utiliza herramientas de inteligencia artificial, pero la aplicación no incorpora funcionalidades de IA.
+- Priorizar claridad, facilidad de uso, calidad visual y simplicidad técnica.
+- El proyecto corresponde a una evaluación académica y todo el código debe ser fácil de entender y explicar.
+
+## Tecnologías permitidas
+
+- Utilizar HTML5 para la estructura.
+- Utilizar CSS3 para el diseño.
+- Utilizar JavaScript puro para la lógica.
+- No utilizar React, Vue, Angular ni otros frameworks.
+- No utilizar backend.
+- No utilizar bases de datos.
+- No utilizar localStorage ni sessionStorage.
+- Los datos deben mantenerse únicamente en memoria durante la ejecución.
+- Evitar dependencias innecesarias.
+
+## Organización del código
+
+- Mantener HTML, CSS y JavaScript separados.
+- Utilizar nombres claros y descriptivos para variables y funciones.
+- Mantener las funciones pequeñas y fáciles de comprender.
+- Evitar código duplicado.
+- Utilizar HTML semántico cuando sea posible.
+- Agregar comentarios solamente cuando aporten claridad.
+- Priorizar soluciones simples antes que arquitecturas complejas.
+- No implementar funcionalidades que no hayan sido solicitadas en el prompt actual.
+
+## Diseño visual
+
+- La aplicación debe verse moderna, profesional y visualmente atractiva.
+- Utilizar un estilo de dashboard administrativo.
+- Usar una barra lateral o sidebar para la navegación principal.
+- Utilizar tarjetas, tablas, badges, formularios y modales cuando corresponda.
+- Aplicar bordes redondeados y sombras suaves.
+- Mantener espacios, márgenes y alineaciones consistentes.
+- Crear una interfaz responsive.
+- Evitar sobrecargar visualmente la aplicación.
+- La apariencia debe ser llamativa pero profesional.
+
+## Iconografía
+
+- No utilizar imágenes decorativas.
+- No utilizar fotografías.
+- No utilizar ilustraciones decorativas.
+- No utilizar emojis en la interfaz.
+- Utilizar iconos vectoriales profesionales de Lucide Icons.
+- Utilizar iconos para Dashboard, Tareas, Reuniones, Crear, Editar, Eliminar, Buscar, Filtrar, Fecha, Hora y otras acciones cuando corresponda.
+- Los iconos deben complementar el texto y mantener buena accesibilidad.
+
+## Paleta de colores
+
+Utilizar principalmente:
+
+- Azul oscuro: `#0F172A`
+- Índigo principal: `#4F46E5`
+- Celeste secundario: `#06B6D4`
+- Fondo claro: `#F8FAFC`
+- Blanco: `#FFFFFF`
+- Texto principal: `#1E293B`
+- Texto secundario: `#64748B`
+- Verde de éxito: `#16A34A`
+- Amarillo de advertencia: `#F59E0B`
+- Rojo de eliminación o error: `#DC2626`
+
+Los colores deben usarse de forma coherente, evitando una interfaz demasiado saturada.
+
+## Tipografía
+
+- Utilizar una tipografía moderna y legible como Inter.
+- Mantener jerarquía visual clara entre títulos, subtítulos, etiquetas y texto.
+- Evitar tipografías decorativas o difíciles de leer.
+
+## Gestión de tareas
+
+La gestión de tareas tendrá:
+
+- Título
+- Descripción
+- Fecha
+- Prioridad
+- Estado
+
+Estados permitidos:
+
+- Pendiente
+- En proceso
+- Completada
+
+Prioridades:
+
+- Baja
+- Media
+- Alta
+
+Debe permitir:
+
+- Alta de tareas.
+- Modificación de tareas.
+- Baja de tareas.
+- Consulta o listado de tareas.
+
+No implementar esta funcionalidad hasta que sea solicitada explícitamente mediante su correspondiente prompt de feature.
+
+## Gestión de reuniones
+
+La gestión de reuniones tendrá:
+
+- Título
+- Participante
+- Fecha
+- Hora
+- Lugar
+
+Debe permitir:
+
+- Alta de reuniones.
+- Modificación de reuniones.
+- Baja de reuniones.
+- Consulta o listado de reuniones.
+
+No implementar esta funcionalidad hasta que sea solicitada explícitamente mediante su correspondiente prompt de feature.
+
+## Dashboard
+
+Cuando sea solicitado, el dashboard podrá incluir:
+
+- Total de tareas.
+- Tareas pendientes.
+- Tareas completadas.
+- Total de reuniones.
+- Gráfica de barras de tareas por estado.
+- Actividad reciente.
+
+La gráfica de barras debe construirse de forma sencilla utilizando HTML, CSS y JavaScript.
+
+La gráfica debe utilizar los datos reales almacenados en memoria.
+
+No utilizar librerías de gráficos salvo que se solicite explícitamente.
+
+No implementar el dashboard funcional hasta que sea solicitado mediante su correspondiente prompt de feature.
+
+## Filtros
+
+Cuando sean solicitados, implementar:
+
+- Búsqueda de tareas por título.
+- Filtro por estado.
+- Filtro por prioridad.
+
+Los filtros deben trabajar con los mismos datos almacenados en memoria.
+
+## Validaciones
+
+- Validar los campos obligatorios antes de guardar un registro.
+- No permitir registros incompletos cuando existan campos obligatorios.
+- Mostrar mensajes claros al usuario.
+- Solicitar confirmación antes de eliminar información.
+- Evitar errores visibles en consola.
+- Mantener una experiencia de usuario clara y sencilla.
+
+## Desarrollo incremental
+
+El proyecto debe construirse por etapas.
+
+- La estructura inicial no debe contener los ABM completos.
+- La gestión de tareas se implementará únicamente en su feature correspondiente.
+- La gestión de reuniones se implementará únicamente en su feature correspondiente.
+- El dashboard y los filtros se implementarán únicamente en su feature correspondiente.
+- No adelantarse a funcionalidades futuras.
+- Respetar el alcance específico de cada prompt.
+
+## Git y entregables
+
+- No ejecutar comandos Git sin autorización explícita del usuario.
+- No crear commits automáticamente.
+- No crear ramas automáticamente.
+- No realizar push automáticamente.
+- No crear Pull Requests automáticamente.
+- No realizar merges automáticamente.
+- No utilizar operaciones Git destructivas.
+- El usuario debe mantener el control sobre todas las operaciones de Git y GitHub.
+
+## Human in the Loop
+
+La inteligencia artificial actúa como asistente, no como responsable final.
+
+- Cursor puede proponer y generar código.
+- El usuario debe revisar el código generado.
+- El usuario debe probar las funcionalidades.
+- Las recomendaciones de otras herramientas de IA deben ser analizadas antes de aplicarse.
+- No asumir que una solución es correcta únicamente porque fue generada por IA.
+- Mantener las decisiones finales bajo control humano.
+- Favorecer un proceso donde la IA propone, el usuario revisa y el usuario decide.
+
+## Comunicación
+
+- Responder en español cuando el usuario escriba en español.
+- Explicar los cambios de forma clara y sencilla.
+- Evitar términos técnicos innecesarios.
+- Antes de implementar algo complejo, preferir una alternativa más sencilla cuando cumpla el mismo objetivo.
+- Si falta información importante para tomar una decisión, consultar antes de asumir.
+
+## Prioridad general
+
+Ante varias alternativas, utilizar este orden de prioridad:
+
+1. Cumplir correctamente los requisitos de la evaluación.
+2. Mantener el sistema fácil de desarrollar.
+3. Mantener el sistema fácil de explicar.
+4. Producir código claro y organizado.
+5. Crear una interfaz visualmente atractiva y profesional.
+6. Evitar complejidad innecesaria.

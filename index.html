@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TaskMeet</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar" id="sidebar" aria-label="Navegación principal">
+      <div class="sidebar__brand">
+        <span class="sidebar__logo" aria-hidden="true">
+          <i data-lucide="layout-dashboard"></i>
+        </span>
+        <span class="sidebar__title">TaskMeet</span>
+      </div>
+
+      <nav class="sidebar__nav">
+        <button
+          type="button"
+          class="nav-item is-active"
+          data-section="dashboard"
+          aria-current="page"
+        >
+          <i data-lucide="layout-dashboard" aria-hidden="true"></i>
+          <span>Dashboard</span>
+        </button>
+
+        <button type="button" class="nav-item" data-section="tareas">
+          <i data-lucide="list-todo" aria-hidden="true"></i>
+          <span>Tareas</span>
+        </button>
+
+        <button type="button" class="nav-item" data-section="reuniones">
+          <i data-lucide="calendar-days" aria-hidden="true"></i>
+          <span>Reuniones</span>
+        </button>
+      </nav>
+    </aside>
+
+    <div class="main">
+      <header class="topbar">
+        <button
+          type="button"
+          class="menu-toggle"
+          id="menu-toggle"
+          aria-label="Abrir o cerrar menú"
+          aria-controls="sidebar"
+          aria-expanded="false"
+        >
+          <i data-lucide="menu" aria-hidden="true"></i>
+        </button>
+
+        <div class="topbar__info">
+          <h1 class="topbar__title" id="page-title">Dashboard</h1>
+          <p class="topbar__subtitle" id="page-subtitle">
+            Resumen general del sistema
+          </p>
+        </div>
+      </header>
+
+      <main class="content">
+        <!-- Dashboard -->
+        <section
+          id="section-dashboard"
+          class="section is-visible"
+          aria-labelledby="page-title"
+        >
+          <div class="stats-grid">
+            <article class="stat-card">
+              <div class="stat-card__icon stat-card__icon--indigo">
+                <i data-lucide="list-todo" aria-hidden="true"></i>
+              </div>
+              <div class="stat-card__body">
+                <p class="stat-card__label">Total de tareas</p>
+                <p class="stat-card__value">0</p>
+              </div>
+            </article>
+
+            <article class="stat-card">
+              <div class="stat-card__icon stat-card__icon--warning">
+                <i data-lucide="clock" aria-hidden="true"></i>
+              </div>
+              <div class="stat-card__body">
+                <p class="stat-card__label">Pendientes</p>
+                <p class="stat-card__value">0</p>
+              </div>
+            </article>
+
+            <article class="stat-card">
+              <div class="stat-card__icon stat-card__icon--success">
+                <i data-lucide="circle-check" aria-hidden="true"></i>
+              </div>
+              <div class="stat-card__body">
+                <p class="stat-card__label">Completadas</p>
+                <p class="stat-card__value">0</p>
+              </div>
+            </article>
+
+            <article class="stat-card">
+              <div class="stat-card__icon stat-card__icon--cyan">
+                <i data-lucide="calendar-days" aria-hidden="true"></i>
+              </div>
+              <div class="stat-card__body">
+                <p class="stat-card__label">Reuniones</p>
+                <p class="stat-card__value">0</p>
+              </div>
+            </article>
+          </div>
+
+          <article class="card chart-placeholder">
+            <h2 class="card__title">Tareas por estado</h2>
+            <div class="empty-state empty-state--compact">
+              <i data-lucide="bar-chart-3" aria-hidden="true"></i>
+              <p>Sin datos para visualizar</p>
+            </div>
+          </article>
+        </section>
+
+        <!-- Tareas -->
+        <section
+          id="section-tareas"
+          class="section"
+          hidden
+          aria-labelledby="page-title"
+        >
+          <article class="card empty-panel">
+            <div class="empty-state">
+              <div class="empty-state__icon">
+                <i data-lucide="list-todo" aria-hidden="true"></i>
+              </div>
+              <h2 class="empty-state__title">Tareas</h2>
+              <p class="empty-state__text">
+                Administrá tus tareas pendientes, en proceso y completadas
+                desde esta sección.
+              </p>
+              <p class="empty-state__hint">Todavía no existen tareas.</p>
+            </div>
+          </article>
+        </section>
+
+        <!-- Reuniones -->
+        <section
+          id="section-reuniones"
+          class="section"
+          hidden
+          aria-labelledby="page-title"
+        >
+          <article class="card empty-panel">
+            <div class="empty-state">
+              <div class="empty-state__icon">
+                <i data-lucide="calendar-days" aria-hidden="true"></i>
+              </div>
+              <h2 class="empty-state__title">Reuniones</h2>
+              <p class="empty-state__text">
+                Organizá encuentros con título, participante, fecha, hora
+                y lugar.
+              </p>
+              <p class="empty-state__hint">Todavía no existen reuniones.</p>
+            </div>
+          </article>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <div class="sidebar-overlay" id="sidebar-overlay" hidden></div>
+
+  <script src="https://unpkg.com/lucide@0.468.0"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
