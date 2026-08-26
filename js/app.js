@@ -208,6 +208,7 @@ function saveTask(event) {
 
   closeTaskForm();
   renderTasks();
+  updateDashboard();
 }
 
 function formatTaskDate(date) {
@@ -234,13 +235,26 @@ function renderTasks() {
   const taskList = document.getElementById("task-list");
   const tableBody = document.getElementById("task-table-body");
   const taskCount = document.getElementById("task-count");
+  const tableWrapper = document.getElementById("task-table-wrapper");
+  const noResults = document.getElementById("task-no-results");
+  const searchTerm = document.getElementById("task-search").value.trim().toLowerCase();
+  const statusFilter = document.getElementById("task-status-filter").value;
+  const priorityFilter = document.getElementById("task-priority-filter").value;
+  const filteredTasks = tasks.filter(function (task) {
+    const searchableText = (task.title + " " + task.description).toLowerCase();
+    return (!searchTerm || searchableText.includes(searchTerm))
+      && (!statusFilter || task.status === statusFilter)
+      && (!priorityFilter || task.priority === priorityFilter);
+  });
 
   emptyState.hidden = tasks.length > 0;
   taskList.hidden = tasks.length === 0;
-  taskCount.textContent = tasks.length + (tasks.length === 1 ? " tarea" : " tareas");
+  taskCount.textContent = filteredTasks.length + " de " + tasks.length + (tasks.length === 1 ? " tarea" : " tareas");
+  tableWrapper.hidden = filteredTasks.length === 0;
+  noResults.hidden = filteredTasks.length > 0;
   tableBody.innerHTML = "";
 
-  tasks.forEach(function (task) {
+  filteredTasks.forEach(function (task) {
     const row = document.createElement("tr");
     row.innerHTML = `
       <td>
@@ -264,6 +278,52 @@ function renderTasks() {
   });
 
   initIcons();
+}
+
+function updateDashboard() {
+  const pendingTasks = tasks.filter(function (task) {
+    return task.status === "Pendiente";
+  }).length;
+  const completedTasks = tasks.filter(function (task) {
+    return task.status === "Completada";
+  }).length;
+  const statusCounts = {
+    pending: pendingTasks,
+    progress: tasks.filter(function (task) {
+      return task.status === "En proceso";
+    }).length,
+    completed: completedTasks,
+  };
+  const highestCount = Math.max(statusCounts.pending, statusCounts.progress, statusCounts.completed);
+  const chartBars = document.getElementById("task-chart-bars");
+  const chartEmptyState = document.getElementById("chart-empty-state");
+
+  document.getElementById("dashboard-total-tasks").textContent = tasks.length;
+  document.getElementById("dashboard-pending-tasks").textContent = pendingTasks;
+  document.getElementById("dashboard-completed-tasks").textContent = completedTasks;
+  document.getElementById("dashboard-total-meetings").textContent = meetings.length;
+
+  Object.keys(statusCounts).forEach(function (status) {
+    const count = statusCounts[status];
+    const height = highestCount === 0 ? 0 : Math.max((count / highestCount) * 100, count > 0 ? 8 : 0);
+    document.getElementById("chart-bar-" + status).style.height = height + "%";
+    document.getElementById("chart-count-" + status).textContent = count;
+  });
+
+  chartBars.hidden = tasks.length === 0;
+  chartEmptyState.hidden = tasks.length > 0;
+}
+
+function initTaskFilters() {
+  document.getElementById("task-search").addEventListener("input", renderTasks);
+  document.getElementById("task-status-filter").addEventListener("change", renderTasks);
+  document.getElementById("task-priority-filter").addEventListener("change", renderTasks);
+  document.getElementById("clear-task-filters").addEventListener("click", function () {
+    document.getElementById("task-search").value = "";
+    document.getElementById("task-status-filter").value = "";
+    document.getElementById("task-priority-filter").value = "";
+    renderTasks();
+  });
 }
 
 function escapeHtml(value) {
@@ -292,6 +352,7 @@ function handleTaskAction(event) {
 
     tasks.splice(tasks.indexOf(task), 1);
     renderTasks();
+    updateDashboard();
   }
 }
 
@@ -401,6 +462,7 @@ function saveMeeting(event) {
 
   closeMeetingForm();
   renderMeetings();
+  updateDashboard();
 }
 
 function formatMeetingTime(time) {
@@ -461,6 +523,7 @@ function handleMeetingAction(event) {
 
     meetings.splice(meetings.indexOf(meeting), 1);
     renderMeetings();
+    updateDashboard();
   }
 }
 
@@ -480,5 +543,7 @@ document.addEventListener("DOMContentLoaded", function () {
   initNavigation();
   initMobileMenu();
   initTaskManagement();
+  initTaskFilters();
   initMeetingManagement();
+  updateDashboard();
 });
