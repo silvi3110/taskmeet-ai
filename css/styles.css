@@ -717,7 +717,7 @@ button {
 }
 
 .task-chart__bars[hidden] {
-  display: none;
+  display: none !important;
 }
 
 .task-chart__item {
