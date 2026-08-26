@@ -20,6 +20,7 @@ const sectionMeta = {
 
 const tasks = [];
 let editingTaskId = null;
+let nextTaskId = 1;
 
 function initIcons() {
   if (typeof lucide !== "undefined") {
@@ -189,9 +190,17 @@ function saveTask(event) {
     const taskIndex = tasks.findIndex(function (task) {
       return task.id === editingTaskId;
     });
+
+    if (taskIndex === -1) {
+      closeTaskForm();
+      renderTasks();
+      return;
+    }
+
     tasks[taskIndex] = { id: editingTaskId, ...taskData };
   } else {
-    tasks.push({ id: Date.now(), ...taskData });
+    tasks.push({ id: nextTaskId, ...taskData });
+    nextTaskId += 1;
   }
 
   closeTaskForm();
@@ -274,6 +283,10 @@ function handleTaskAction(event) {
   if (actionButton.dataset.action === "edit") {
     openTaskForm(task);
   } else if (task && confirm("¿Querés eliminar la tarea \"" + task.title + "\"?")) {
+    if (editingTaskId === task.id) {
+      closeTaskForm();
+    }
+
     tasks.splice(tasks.indexOf(task), 1);
     renderTasks();
   }
